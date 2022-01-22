@@ -31,9 +31,9 @@ function UploadProcess() {
 };
 
 
-let li = document.querySelector('.task')
-let showMoreBtn = document.querySelector('.button')
-let checkBox = document.querySelector('.checkBox')
+const ul = document.querySelector('#ulOfTasks')
+const showMoreBtn = document.querySelector('.button')
+const checkBox = document.querySelector('.checkBox')
 
 
 function GetTableFromExcel(data) {
@@ -48,73 +48,29 @@ function GetTableFromExcel(data) {
 
     //Read all rows from First Sheet into an JSON array.
     var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
-    console.log(excelRows)
-
-
-    // //Create a HTML Table element.
-    // var myTable  = document.createElement("table");
-    // myTable.border = "1";
-
-    // //Add the header row.
-    // var row = myTable.insertRow(-1);
-
-    // //Add the header cells.
-    // var headerCell = document.createElement("TH");
-    // headerCell.innerHTML = "Id";
-    // row.appendChild(headerCell);
-
-    // headerCell = document.createElement("TH");
-    // headerCell.innerHTML = "Name";
-    // row.appendChild(headerCell);
-
-    // headerCell = document.createElement("TH");
-    // headerCell.innerHTML = "Country";
-    // row.appendChild(headerCell);
     
-    // headerCell = document.createElement("TH");
-    // headerCell.innerHTML = "Age";
-    // row.appendChild(headerCell);
-    
-    // headerCell = document.createElement("TH");
-    // headerCell.innerHTML = "Date";
-    // row.appendChild(headerCell);
-     
-    //  headerCell = document.createElement("TH");
-    // headerCell.innerHTML = "Gender";
-    // row.appendChild(headerCell);
+    for(let i = 1; i<50; i++){
+    // ADD TASKS
+    let row = `__EMPTY_${i}`
+    const newLi = document.createElement('li')
+    const newShowMoreBtn = document.createElement('button')
+    const newCheckBox = document.createElement('input')
+    ul.appendChild(newLi)
+    newLi.setAttribute('id',`${i}`)
+    newLi.setAttribute('class','task')
+    newShowMoreBtn.setAttribute('class','button')
+    newLi.innerText = `${JSON.stringify(excelRows[4][row])}`
+    newLi.prepend(newShowMoreBtn)
+    newLi.appendChild(newCheckBox)
+    newCheckBox.setAttribute('type', 'checkbox')
+    newCheckBox.setAttribute('class', 'checkBox')
 
 
-    // //Add the data rows from Excel file.
-    // for (var i = 0; i < excelRows.length; i++) {
-    //     //Add the data row.
-    //     var row = myTable.insertRow(-1);
-
-    //     //Add the data cells.
-    //     var cell = row.insertCell(-1);
-    //     cell.innerHTML = excelRows[i].Id;
-
-    //     cell = row.insertCell(-1);
-    //     cell.innerHTML = excelRows[i].Name;
-
-    //     cell = row.insertCell(-1);
-    //     cell.innerHTML = excelRows[i].Country;
-        
-    //     cell = row.insertCell(-1);
-    //     cell.innerHTML = excelRows[i].Age;
-        
-    //     cell = row.insertCell(-1);
-    //     cell.innerHTML = excelRows[i].Date;
-        
-    //     cell = row.insertCell(-1);
-    //     cell.innerHTML = excelRows[i].Gender;
+    console.log(excelRows[4][row])
     }
+
     
 
-    var ExcelTable = document.getElementById("ExcelTable");
-    ExcelTable.innerHTML = "";
-    ExcelTable.appendChild(myTable);
-;
 
-
+}
 fileUpload.addEventListener('change', UploadProcess)
-// fileUpload.addEventListener('change', GetTableFromExcel)
