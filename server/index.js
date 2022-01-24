@@ -1,22 +1,18 @@
-require('dotenv').config()
+require('dotenv').config({path: __dirname + '/../.env'})
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const {SERVER_PORT} = process.env
-const {
-    uploadTasks,
-    createTasksSql,
-    showAllTasks,
-    getExtraInfo
-} = require('./controller')
+const{ uploadTasks, createTasksTable, showAllTasks } = require('./controller')
 
 app.use(express.json())
 app.use(cors())
 
-
+app.get('/createTasksTable', createTasksTable)
 app.post('/uploadTasks', uploadTasks)
 app.get('/showAllTasks', showAllTasks)
-app.get('/extraInfo', getExtraInfo)
+
+// app.get('/extraInfo', getExtraInfo)
 
 
 

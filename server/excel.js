@@ -1,7 +1,8 @@
 
+
+// require('dotenv').config()
 let fileUpload = document.querySelector('#fileUpload')
-// const {createTasks} = require('./main')
-// console.log(createTasks)
+
 
 function UploadProcess() {
     //Reference the FileUpload element.
@@ -45,50 +46,95 @@ function GetTableFromExcel(data) {
     var workbook = XLSX.read(data, {
         type: 'binary'
     });
-
+    
     //get the name of First Sheet.
     var Sheet = workbook.SheetNames[0];
-
+    
     //Read all rows from First Sheet into an JSON array.
     var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
-    createTasks()
-    // console.log(excelRows[4]['__EMPTY_1'])
-    // console.log(excelRows[5]['__EMPTY_1'])
-    // console.log(excelRows[6]['__EMPTY_1'])
-    for(let i = 1; i<50; i++){
-        // ADD TASKS
-        const newLi = document.createElement('li')
-        const newShowMoreBtn = document.createElement('button')
-        const newCheckBox = document.createElement('input')
-        const newPara = document.createElement('p')
-    
-    let row = `__EMPTY_${i}`
-    // let collumn = `__EMPTY_${i}`
-    // console.log(collumn)
-    ul.appendChild(newLi)
-    newLi.setAttribute('class','task')
-    newShowMoreBtn.setAttribute('class','button')
-    newLi.prepend(newShowMoreBtn)
-    newPara.setAttribute('id', 'para')
-    newLi.appendChild(newPara)
-    newPara.innerText = `${JSON.stringify(excelRows[4][row])}`
-    newLi.appendChild(newCheckBox)
 
-    newShowMoreBtn.setAttribute('id',`${i}`)
-    newCheckBox.setAttribute('type', 'checkbox')
-    newCheckBox.setAttribute('class', 'checkBox')
+    const createTasksTable =() => {
+    axios.get('http://localhost:8765/createTasksTable')
+    .then(res=> {
+        console.log('table created!')
+    })}
+
+    const uploadTasks = (body) => {
+        
+        axios.post('http://localhost:8765/uploadTasks',body)
+        .then(res=>{
+            console.log(res.data)
+            console.log('tables added')
+        })
+        .catch(err=> console.log(err))
     }
+    const showAllTasks = () => {
+        axios.get('http://localhost:8765/showAllTasks')
+        .then(res=>{
+            console.log(res.data)
+
+            for(let i = 1; i<res.data.length; i++){
+            //     // ADD TASKS
+                const newLi = document.createElement('li')
+                const newShowMoreBtn = document.createElement('button')
+                const newCheckBox = document.createElement('input')
+                const newPara = document.createElement('p')
+            
+            // let row = `__EMPTY_${1}`
+            // let collumn = `__EMPTY_${i}`
+            // console.log(collumn)
+            ul.appendChild(newLi)
+            newLi.setAttribute('class','task')
+            newShowMoreBtn.setAttribute('class','button')
+            newLi.prepend(newShowMoreBtn)
+            newPara.setAttribute('id', 'para')
+            newLi.appendChild(newPara)
+            newPara.innerText = `${JSON.stringify(res.data[1][i]["nombre_del_programa"])}`
+            newLi.appendChild(newCheckBox)
+        
+            newShowMoreBtn.setAttribute('id',`${i}`)
+            newCheckBox.setAttribute('type', 'checkbox')
+            newCheckBox.setAttribute('class', 'checkBox')
+        }
+        })
+        .catch(err=> console.log(err))
     
+    }
+
+   
+    
+    // createTasksTable()
+    uploadTasks(excelRows)
+    // showAllTasks()
+
+
+    // for(let i = 1; i<50; i++){
+        // ADD TASKS
+    //     const newLi = document.createElement('li')
+    //     const newShowMoreBtn = document.createElement('button')
+    //     const newCheckBox = document.createElement('input')
+    //     const newPara = document.createElement('p')
+    
+    // let row = `__EMPTY_${i}`
+    // // let collumn = `__EMPTY_${i}`
+    // // console.log(collumn)
+    // ul.appendChild(newLi)
+    // newLi.setAttribute('class','task')
+    // newShowMoreBtn.setAttribute('class','button')
+    // newLi.prepend(newShowMoreBtn)
+    // newPara.setAttribute('id', 'para')
+    // newLi.appendChild(newPara)
+    // newPara.innerText = `${JSON.stringify(excelRows[4][row])}`
+    // newLi.appendChild(newCheckBox)
+
+    // newShowMoreBtn.setAttribute('id',`${i}`)
+    // newCheckBox.setAttribute('type', 'checkbox')
+    // newCheckBox.setAttribute('class', 'checkBox')
 }
 
-// const showMore = (id)=>{
-//     id = newShowMoreBtn.getAttribute('id')
-//      console.log('btn clicked')
-//      console.log(id)
-//  }
-// newShowMoreBtn.addEventListener('click',showMore)
-
-
+    
+//    showAllTasks()
+    // fileUpload.addEventListener('change', uploadTasks)
 
 
 
@@ -96,6 +142,24 @@ fileUpload.addEventListener('change', UploadProcess)
 
 
 
-// module.exports = {
-//     excelRows
+
+
+// const showAllTasks = () => {
+//     axios.get('http://localhost:8765/showAllTasks')
+//     .then(res=>{
+//         console.log(res.data)
+//     })
+//     .catch(err=> console.log(err))
+
 // }
+// showAllTasks()
+
+// const createTasks =() => {
+//     console.log('created task func')
+   
+//     }
+// module.exports = {
+//     createTasks
+
+// }
+
