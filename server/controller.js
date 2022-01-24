@@ -1,10 +1,7 @@
 require('dotenv').config({path: __dirname + '/../.env'})
-// let {CONNECTION_STRING} = process.env
-// let {CONNECTION_STRING} = 'hai'
+
 const Sequelize = require('sequelize')
-// console.log(process.env.CONNECTION_STRING)
-// console.log(process.env.SERVER_PORT)
-// console.log(process.env.CONNECTION_STRING)
+
 
 // you wouldn't want to rejectUnauthorized in a production app, but it's great for practice
 const sequelize = new Sequelize(process.env.CONNECTION_STRING,{
@@ -15,9 +12,7 @@ const sequelize = new Sequelize(process.env.CONNECTION_STRING,{
         }
     }
 })
-console.log(sequelize.query)
-let request =[]
-console.log('jai')
+
 module.exports = {
 createTasksTable:(req, res) =>{
     // CREATE TABLE tasks1a (
@@ -53,15 +48,26 @@ uploadTasks:(req, res)=> {
           '${req.body[6][`__EMPTY_${i}`]}', 
            false)`
         
-)}[then(dbRes=>res.status(200).send('tables added!'))]
+)}res.status(200).send('tables added!')
         },
 showAllTasks:(req, res) =>{
-    // console.log(req.body)
+    console.log(req.body.id)
         sequelize.query(`SELECT * FROM tasks1a`)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err))
 
-    }
+    },
+showMore:(req,res) =>{
+    sequelize.query(
+    //     `
+    // SELECT aprendizaje_esperado, enfasis  FROM tasks1a
+    // WHERE id = ${req.body.id}`
+    )
+    .then(dbRes => res.status(200).send(req.body.id))
+    .catch(err => console.log(err))
+
+
+}
 }
 
 
