@@ -97,7 +97,7 @@ header{
     padding: 7px;
     border-radius: 19px;
 }
-#para{
+.para{
     /* border:2px red solid; */
     font-size:25px;
     display: flex;
@@ -116,10 +116,12 @@ header{
 .extraInfo {
     /* background-color: rgb(206, 204, 204); */
     border: 2px red solid;
-}
-.extraInfo{
     width:12cm ;
 }
+
+
+/* .extraInfo{
+} */
 /* .title {
   
 } */

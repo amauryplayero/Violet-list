@@ -55,15 +55,18 @@ showAllTasks:(req, res) =>{
         sequelize.query(`SELECT * FROM tasks1a`)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err))
-
     },
 showMore:(req,res) =>{
-    sequelize.query(
-    //     `
-    // SELECT aprendizaje_esperado, enfasis  FROM tasks1a
-    // WHERE id = ${req.body.id}`
-    )
-    .then(dbRes => res.status(200).send(req.body.id))
+    let request = req.params.id
+   let id = request.replace(':','')
+    // console.log(`THISSSS ISSSSS THE ${id}`)
+
+   sequelize.query(
+    `
+    SELECT aprendizaje_esperado, enfasis FROM tasks1a
+    WHERE task_id = ${id}`
+).then(dbRes =>
+   res.status(200).send(dbRes[0]))
     .catch(err => console.log(err))
 
 

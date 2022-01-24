@@ -1,6 +1,7 @@
 
 
 
+
 // require('dotenv').config()
 let fileUpload = document.querySelector('#fileUpload')
 
@@ -39,7 +40,26 @@ const showMoreBtn = document.querySelector('.button')
 const checkBox = document.querySelector('.checkBox')
 const btn = document.querySelector('.button')
 
+
 function GetTableFromExcel(data) {
+    const uploadTasks = (body) => {
+        
+        axios.post('http://localhost:8765/uploadTasks',body)
+        .then(res=>{
+            // console.log(res.data)
+            console.log('tables added')
+            // showAllTasks()
+        
+    })
+    .catch(err=> console.log(err))
+    }
+    const createTasksTable =() => {
+    axios.get('http://localhost:8765/createTasksTable')
+    .then(res=> {
+        console.log('table created!')
+        // uploadTasks(excelRows)
+    })}
+   
     
     // console.log('gettablefromexcel function')
     //Read the Excel File data in binary
@@ -52,10 +72,11 @@ function GetTableFromExcel(data) {
     
     //Read all rows from First Sheet into an JSON array.
     var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
-    
+    let showMore
     const showAllTasks = () => {
         axios.get('http://localhost:8765/showAllTasks')
         .then(res=>{
+     
             // console.log(res.data)
             for(let i = 0; i<res.data.length; i++){
                 //     // ADD TASKS
@@ -70,6 +91,7 @@ function GetTableFromExcel(data) {
                 // console.log(collumn)
                 ul.appendChild(newLi)
                 newLi.setAttribute('class','task')
+                newLi.setAttribute('id',`li${i}`)
                 newShowMoreBtn.setAttribute('class','button')
                 newLi.prepend(newShowMoreBtn)
                 newPara.setAttribute('id', 'para')
@@ -81,6 +103,42 @@ function GetTableFromExcel(data) {
                 newCheckBox.setAttribute('type', 'checkbox')
                 newCheckBox.setAttribute('class', 'checkBox')
                 
+                
+                    var showMore = (evt) => {
+                        // console.log(evt.target.id)
+                        let id = evt.target.id
+                        axios.post(`http://localhost:8765/showMore:${evt.target.id}`,id)
+                        .then(res=>{
+                            const extraInfoContainer = document.createElement('div')
+                            const h3Aprendizaje = document.createElement('h3')
+                            const h3Enfasis = document.createElement('h3')
+                            const paragraphA = document.createElement('p')
+                            const paragraphE = document.createElement('p')
+                            const specificTask = document.getElementById(`li${id}`)
+                            let enfasis = res.data[0]['enfasis']
+                            let aprendizaje = res.data[0]['aprendizaje_esperado']
+                            
+                            extraInfoContainer.appendChild(h3Aprendizaje)
+                            extraInfoContainer.appendChild(h3Enfasis)
+                            extraInfoContainer.setAttribute('class','extraInfo')
+                            h3Aprendizaje.innerText="Aprendizaje Esperado"
+                            h3Enfasis.innerText="Enfasis"
+                            // paragraphA.setAttribute('class','para')
+                            // paragraphE.setAttribute('class','para')
+                            paragraphA.innerText=aprendizaje
+                            paragraphE.innerText=enfasis
+                            h3Aprendizaje.appendChild(paragraphA)
+                            h3Enfasis.appendChild(paragraphE)
+                            specificTask.after(extraInfoContainer)
+                            // h3Aprendizaje.setAttribute('id','aprendizaje')
+                            // h3Enfasis.setAttribute('id','enfasis')
+                            console.log(res.data[0]['enfasis'])
+                        })
+                    
+                }
+               
+            newShowMoreBtn.addEventListener('click',showMore)
+                
             }
             // buttons.onclick(showMore())
         })
@@ -88,40 +146,13 @@ function GetTableFromExcel(data) {
         
         
     }
-    const uploadTasks = (body) => {
-        
-        axios.post('http://localhost:8765/uploadTasks',body)
-        .then(res=>{
-            // console.log(res.data)
-            console.log('tables added')
-            showAllTasks()
-        
-    })
-    .catch(err=> console.log(err))
-}
-const createTasksTable =() => {
-    axios.get('http://localhost:8765/createTasksTable')
-    .then(res=> {
-        console.log('table created!')
+ 
+        createTasksTable()
         uploadTasks(excelRows)
-    })}
-    const showMore = (id) => {
-        console.log('show more func went off')
-        axios.get(`http://localhost:8765/showMore:${id}`)
-        .then(res=>{
-            console.log(res.data)
-            
-        })
-    }
+        showAllTasks()
     
     
     
-    
-    createTasksTable()
-    // uploadTasks(excelRows)
-    
-    
-    showAllTasks()
     
     
 }

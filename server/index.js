@@ -11,7 +11,7 @@ app.use(cors())
 app.get('/createTasksTable', createTasksTable)
 app.post('/uploadTasks', uploadTasks)
 app.get('/showAllTasks', showAllTasks)
-app.get('/showMore:id',showMore)
+app.post('/showMore:id',showMore)
 // app.get('/extraInfo', getExtraInfo)
 
 
