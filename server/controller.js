@@ -1,10 +1,10 @@
 // require('dotenv').config({path: __dirname + '/../.env'})
-
+const DATABASE_URL = process.env.DATABASE_URL
 const Sequelize = require('sequelize')
 
 
 // you wouldn't want to rejectUnauthorized in a production app, but it's great for practice
-const sequelize = new Sequelize("postgres://uhnsoixhhsfwhy:e04ace4e2202cc8585623efcd4d096231c34b036ca7e2f6096a402782080b909@ec2-34-194-171-47.compute-1.amazonaws.com:5432/ddfq7mu4ka0m0f",{
+const sequelize = new Sequelize(DATABASE_URL,{
     dialect: 'postgres', 
     dialectOptions: {
         ssl: {   
