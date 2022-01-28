@@ -1,16 +1,8 @@
-
-
-let click = false 
-// require('dotenv').config()
 let fileUpload = document.querySelector("#fileUpload");
 
 function UploadProcess() {
-  //Reference the FileUpload element.
-  // console.log('file uploaded')
+
   var fileUpload = document.getElementById("fileUpload");
-
-  //Validate whether File is valid Excel file.
-
   var reader = new FileReader();
 
   //For Browsers other than IE.
@@ -50,32 +42,24 @@ function GetTableFromExcel(data) {
       axios
         .post("http://localhost:8765/uploadTasks", body)
         .then((res) => {
-          // console.log(res.data)
+          
           console.log("tables added");
           showAllTasks()
         })
         .catch((err) => console.log(err));
     };
-  const showButtons = () => {
-      const hideCompleteBtn = document.querySelector('#hideBtn')
-      hideCompleteBtn.style.display= 'flex';
-   
-  }
  
   var workbook = XLSX.read(data, {
     type: "binary",
   });
 
-  //get the name of First Sheet.
   var Sheet = workbook.SheetNames[0];
-
-  //Read all rows from First Sheet into an JSON array.
   var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
   
   const showAllTasks = () => {
     axios.get("http://localhost:8765/showAllTasks")
       .then((res) => {
-        // console.log(res.data)
+    
         for (let i = 0; i < res.data.length; i++) {
           //     // ADD TASKS
           const buttons = document.querySelector(".button");
@@ -104,8 +88,10 @@ function GetTableFromExcel(data) {
           const extraInfoContainer = document.createElement("div");
           var showMore = (evt) => {
             let id = evt.target.id;
+            id = parseInt(id)
+          
             axios
-              .post(`http://localhost:8765/showMore:${evt.target.id}`, id)
+              .post(`http://localhost:8765/showMore:${id}`)
               .then((res) => {
                 const h3Aprendizaje = document.createElement("h3");
                 const h3Enfasis = document.createElement("h3");
@@ -117,8 +103,7 @@ function GetTableFromExcel(data) {
                 extraInfoContainer.appendChild(h3Aprendizaje);
                 extraInfoContainer.appendChild(h3Enfasis);
                 extraInfoContainer.setAttribute("class", "extraInfo");
-                // extraInfoContainer.style.display = "block";
-
+              
                 h3Aprendizaje.innerText = "Aprendizaje Esperado";
                 h3Enfasis.innerText = "Enfasis";
                 paragraphA.innerText = aprendizaje;
@@ -151,22 +136,11 @@ function GetTableFromExcel(data) {
         newCheckBox.addEventListener('click',makeComplete)
         newShowMoreBtn.addEventListener('click',showMore)
     }
-       
-        
-        
       })
       .catch((err) => console.log(err));
       
   };
   createTasksTable();
-  
-//   uploadTasks(excelRows);
-//   showButtons()
-  
-  
-   
-  
-//   showAllTasks();
 }
 
 fileUpload.addEventListener("change", UploadProcess);

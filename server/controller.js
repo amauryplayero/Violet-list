@@ -30,7 +30,7 @@ createTasksTable:(req, res) =>{
 },
 
 uploadTasks:(req, res)=> {
-    // console.log(`AAAAA CONSOLE LOGGGGGGGGGGG----------------------------------------- ${req.body[4][`__EMPTY_8`]}`)
+   
    if(clicks<1){
        for(let i =0; i<50;i++){
         if(req.body[4][`__EMPTY_${i}`]!= undefined){
@@ -63,13 +63,11 @@ showAllTasks:(req, res) =>{
 showMore:(req,res) =>{
     let request = req.params.id
    let id = request.replace(':','')
-    // console.log(`THISSSS ISSSSS THE ${id}`)
-  
-
+   let newId = parseInt(id)+1
    sequelize.query(
     `
     SELECT aprendizaje_esperado, enfasis FROM tasks1a
-    WHERE task_id = ${id}`
+    WHERE task_id = ${newId}`
 ).then(dbRes =>
    res.status(200).send(dbRes[0]))
     .catch(err => console.log(err))
@@ -77,8 +75,6 @@ showMore:(req,res) =>{
 makeComplete:(req,res)=>{
     let request = req.params.id
     let id = request.replace(':','')
-    console.log(id + 'DATABASE ID -------------------')
-    console.log(req.params.id + "params ID")
     sequelize.query(
         `UPDATE tasks1a
         SET complete = true 
