@@ -2,7 +2,7 @@ require('dotenv').config({path: __dirname + '/../.env'})
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const {SERVER_PORT} = process.env
+const PORT = process.env.PORT || 8765
 const{ uploadTasks, createTasksTable, showAllTasks, showMore, makeComplete } = require('./controller')
 
 app.use(express.json())
@@ -17,4 +17,4 @@ app.put('/makeComplete:id',makeComplete)
 
 
 
-app.listen(SERVER_PORT, () => console.log(`up on ${SERVER_PORT}`))
+app.listen(PORT, () => console.log(`up on ${PORT}`))
