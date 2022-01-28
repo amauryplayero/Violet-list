@@ -1,5 +1,4 @@
 {
-
   "name": "clark-county-admin",
   "version": "1.0.0",
   "description": "",
@@ -18,5 +17,14 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.8.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amauryplayero/Violet-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amauryplayero/Violet-list/issues"
+  },
+  "homepage": "https://github.com/amauryplayero/Violet-list#readme"
 }
