@@ -1,6 +1,6 @@
 # Violet-list
 
-I have included the Excel file which I used in the youtube sample video. 
+I have included the Excel file called SAMPLE EXCEL FILE which I used in the youtube sample video. 
 
 If you would like try the web app yourself, you can just download the excel file, and 
 
