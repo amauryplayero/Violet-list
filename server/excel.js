@@ -33,14 +33,14 @@ const btn = document.querySelector(".button");
 function GetTableFromExcel(data) {
     
     const createTasksTable = () => {
-        axios.get("http://localhost:8765/createTasksTable").then((res) => {
+        axios.get("/createTasksTable").then((res) => {
             console.log("table created!");
             uploadTasks(excelRows)
         });
     };
     const uploadTasks = (body) => {
       axios
-        .post("http://localhost:8765/uploadTasks", body)
+        .post("/uploadTasks", body)
         .then((res) => {
           
           console.log("tables added");
@@ -57,7 +57,7 @@ function GetTableFromExcel(data) {
   var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
   
   const showAllTasks = () => {
-    axios.get("http://localhost:8765/showAllTasks")
+    axios.get("/showAllTasks")
       .then((res) => {
     
         for (let i = 0; i < res.data.length; i++) {
@@ -91,7 +91,7 @@ function GetTableFromExcel(data) {
             id = parseInt(id)
           
             axios
-              .post(`http://localhost:8765/showMore:${id}`)
+              .post(`/showMore:${id}`)
               .then((res) => {
                 const h3Aprendizaje = document.createElement("h3");
                 const h3Enfasis = document.createElement("h3");
@@ -129,7 +129,7 @@ function GetTableFromExcel(data) {
             newCheckBox.remove()
             newPara.remove()
             console.log(`button to remove clicked ${idInt}`)
-            axios.put(`http://localhost:8765/makeComplete:${idInt}`).then((res)=> {
+            axios.put(`/makeComplete:${idInt}`).then((res)=> {
 
           })
         }
